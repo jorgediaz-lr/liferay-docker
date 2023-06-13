@@ -188,6 +188,9 @@ function build_service_web_server {
 	docker cp "${web_server_container}":/usr/local/bin/start-haproxy.sh build/web-server/resources/usr/local/bin/start-haproxy.sh
 	docker cp "${web_server_container}":/usr/local/bin/start-nginx.sh build/web-server/resources/usr/local/bin/start-nginx.sh
 
+	sed -i build/web-server/resources/usr/local/bin/start-nginx.sh -e "s/validate-modsecurity-conf.sh//"
+	sed -i build/web-server/resources/usr/local/bin/start-nginx.sh -e "s/replace-environment-variables.sh/replace-environment-variables.sh\n  10-replace-environment-variables.sh/"
+
 	mkdir -p build/web-server/resources/usr/local/etc/haproxy
 
 	docker cp "${web_server_container}":/usr/local/etc/haproxy/haproxy.cfg build/web-server/resources/usr/local/etc/haproxy/haproxy.cfg
